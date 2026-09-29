@@ -51,7 +51,9 @@ input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
 .cta{background:var(--warn-bg);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:6px}
 .cta h2{font-family:var(--display);font-size:22px;margin:0}
 .cta p{margin:0}
-.contact{font-weight:700;color:var(--ink);user-select:all}
+.wa{display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:12px 18px;border-radius:14px;background:#1E6FE8;text-align:center;color:#FFFFFF;font:700 18px var(--body);text-decoration:none;margin-top:6px}
+.wa:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wa small{display:block;font-weight:600;font-size:13px;opacity:.9}
 </style>
 </head>
 <body>
@@ -94,8 +96,8 @@ input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
 
   <section class="cta">
     <h2>O Elo confirma, lembra e reagenda pelo WhatsApp, 24 horas.</h2>
-    <p>Estamos procurando a primeira clínica para um piloto. Fale com a gente:</p>
-    <p class="contact">[contato do grupo]</p>
+    <p>Estamos procurando a primeira clínica para um piloto.</p>
+    <a class="wa" id="wa" href="https://docs.google.com/forms/d/e/1FAIpQLScDed1MPPXjigy0yGUEjOWso9embrsIXZWCuozJ7yeBj1gtHA/viewform" target="_blank" rel="noopener"><span>Quero conhecer o Elo<small>Deixe seu contato e a gente fala com você</small></span></a>
   </section>
 </main>
 
@@ -110,6 +112,7 @@ input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
     document.getElementById('mes').textContent=brl.format(mes);
     document.getElementById('ano').textContent=brl.format(mes*12);
     document.getElementById('vazias').textContent=num.format(vazias);
+    document.getElementById('wa').href='https://docs.google.com/forms/d/e/1FAIpQLScDed1MPPXjigy0yGUEjOWso9embrsIXZWCuozJ7yeBj1gtHA/viewform?usp=pp_url&entry.954217323='+encodeURIComponent(brl.format(mes)+' por mês ('+num.format(c)+' consultas, '+String(v('faltas')).replace('.',',')+'% de faltas)');
   }
   document.getElementById('f').addEventListener('input',calc);
   document.getElementById('f').addEventListener('submit',function(e){e.preventDefault();});
