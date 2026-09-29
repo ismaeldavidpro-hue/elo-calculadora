@@ -9,7 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap">
 <style>
-/* Layout: uma coluna de cartões por slide, cabeçalho fixo com filtro por pessoa, cronômetro de ensaio no rodapé */
+/* Layout: topo enxuto (título + tema + tela cheia), seletor de pessoa rolando com o conteúdo, cartões por slide, cronômetro fixo no rodapé.
+   Tela cheia: some tudo menos as falas e o cronômetro. */
 :root{
   --bg:#F3F7FB; --card:#FFFFFF; --ink:#0B2A5B; --muted:#4A6280; --line:#DCE6F0;
   --accent:#1E6FE8; --teal:#0E8A99; --cue:#B45309; --cue-bg:#FFF3DC; --mine:#E2F7FB; --mine-edge:#1FC3D3;
@@ -25,99 +26,94 @@
   --accent:#6FA8FF; --teal:#5FD6E3; --cue:#FFC15A; --cue-bg:#2E2410; --mine:#0F3440; --mine-edge:#5FD6E3;
   --chip:#16305A; --dark:#13386F; --dark-ink:#F3F7FB; --on-accent:#07142B; color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;padding:0 16px;padding-block:0 96px}
-.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px 10px;margin:0 -16px;padding-inline:16px;border-bottom:1px solid var(--line)}
-header.top .row{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
-.head{display:flex;align-items:flex-start;gap:12px}
-.title{flex:1;min-width:0}
-.tools{display:flex;gap:6px;flex:none}
-.tool{font:700 13px var(--body);color:var(--ink);background:var(--chip);border:1px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer}
-h1{font-family:var(--display);font-size:22px;font-weight:700;margin:0;text-wrap:balance}
-.sub{margin:0;color:var(--muted);font-size:14px}
-.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;padding:0 16px;padding-block:0 92px}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:14px;padding-top:14px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;margin:0 -16px;padding-inline:16px;border-bottom:1px solid var(--line)}
+.head{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:10px}
+h1{flex:1;min-width:0;font-family:var(--display);font-size:21px;font-weight:700;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tool{flex:none;width:42px;height:42px;display:grid;place-items:center;color:var(--ink);background:var(--chip);border:1px solid var(--line);border-radius:12px;padding:0;cursor:pointer}
+.tool svg{display:block}
+.i-sun{display:none!important}
+.is-dark .i-sun{display:block!important}
+.is-dark .i-moon{display:none!important}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;margin:0 -16px;padding-inline:16px}
+.chips::-webkit-scrollbar{display:none}
 .chips button{flex:none;font:600 14px var(--body);color:var(--ink);background:var(--chip);border:1px solid transparent;border-radius:99px;padding:7px 14px;cursor:pointer}
 .chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.rules{background:var(--dark);color:var(--dark-ink);border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;margin-top:16px}
-.rules h2{font-family:var(--display);font-size:17px;margin:0 0 2px;color:#72E6FF;font-weight:600}
-.rules p{margin:0;font-size:15px}
-.slide{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:120px}
+.rules{background:var(--dark);color:var(--dark-ink);border-radius:14px;padding:12px 14px;margin:0;font-size:14px;line-height:1.45}
+.slide{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px;scroll-margin-top:72px;transition:opacity .2s,border-color .2s}
 .slide.mine{border-color:var(--mine-edge);box-shadow:0 0 0 2px var(--mine-edge) inset}
 .slide.dim{opacity:.45}
-.meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.num{font:700 13px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
-.time{margin-left:auto;font:700 14px var(--body);font-variant-numeric:tabular-nums;background:var(--cue-bg);color:var(--ink);padding:3px 10px;border-radius:99px}
-.who{font-family:var(--display);font-size:24px;font-weight:700;margin:0;line-height:1.15}
-.screen{margin:0;font-size:14px;color:var(--muted);background:var(--bg);border-radius:10px;padding:10px 12px}
-.screen b{color:var(--ink);font-weight:700}
+.slide.live{border-color:var(--cue);box-shadow:0 0 0 2px var(--cue) inset}
+.meta{display:flex;align-items:center;gap:10px}
+.num{font:700 12px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.time{margin-left:auto;font:700 13px var(--body);font-variant-numeric:tabular-nums;background:var(--cue-bg);color:var(--ink);padding:2px 9px;border-radius:99px}
+.who{font-family:var(--display);font-size:23px;font-weight:700;margin:0;line-height:1.15}
+.screen{margin:0;font-size:13px;color:var(--muted)}
 .script{display:flex;flex-direction:column;gap:10px}
 .script p{margin:0;font-size:19px;line-height:1.5}
 .cue{color:var(--cue);font-weight:700;font-size:15px;white-space:nowrap}
-.next{margin:0;font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
-.next b{color:var(--ink)}
-.lines{display:flex;flex-direction:column;gap:10px}
-.line{display:grid;grid-template-columns:92px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:12px;background:var(--bg)}
+.next{margin:0;font-size:13px;color:var(--muted)}
+.lines{display:flex;flex-direction:column;gap:8px}
+.line{display:grid;grid-template-columns:78px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:12px;background:var(--bg)}
 .line.mine{background:var(--mine)}
 .line .n{font:700 14px var(--body);color:var(--accent);padding-top:2px}
 .line p{margin:0;font-size:18px;min-width:0}
-.together{background:var(--dark);color:var(--dark-ink);border-radius:14px;padding:14px;text-align:center}
+.together{background:var(--dark);color:var(--dark-ink);border-radius:14px;padding:12px;text-align:center}
 .together small{display:block;font:700 12px var(--body);letter-spacing:.12em;text-transform:uppercase;color:#72E6FF}
-.together strong{font-family:var(--display);font-size:26px}
-.qa{display:flex;flex-direction:column;gap:10px}
-.qa div{padding:10px 12px;background:var(--bg);border-radius:12px}
-.qa .t{font-weight:700;font-size:15px}
+.together strong{font-family:var(--display);font-size:24px}
+.qa{display:flex;flex-direction:column;gap:8px}
+.qa div{padding:9px 12px;background:var(--bg);border-radius:12px}
+.qa div.mine{background:var(--mine)}
+.qa .t{margin:0;font-weight:700;font-size:15px}
 .qa .t span{color:var(--accent)}
-.qa p{margin:2px 0 0;font-size:15px;color:var(--muted)}
-.timer{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--card);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
-.timer .row{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:12px}
-.clock{font:700 26px var(--display);font-variant-numeric:tabular-nums;min-width:74px}
-.now{flex:1;min-width:0;font-size:14px;color:var(--muted);line-height:1.3}
-.now b{color:var(--ink);display:block;font-size:15px}
-.timer button{font:700 15px var(--body);border:none;border-radius:12px;padding:10px 14px;cursor:pointer;background:var(--accent);color:var(--on-accent)}
+.qa p{margin:2px 0 0;font-size:14px;color:var(--muted)}
+.timer{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--card);border-top:1px solid var(--line);padding:8px 16px calc(8px + env(safe-area-inset-bottom,0px))}
+.timer .row{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.clock{font:700 26px var(--display);font-variant-numeric:tabular-nums;min-width:66px}
+.now{flex:1;min-width:0;font-size:13px;color:var(--muted);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.now b{color:var(--ink);display:block;font-size:15px;overflow:hidden;text-overflow:ellipsis}
+.timer button{font:700 15px var(--body);border:none;border-radius:12px;padding:10px 13px;cursor:pointer;background:var(--accent);color:var(--on-accent)}
 .timer button.ghost{background:var(--chip);color:var(--ink)}
+.timer #exit{display:none;padding:10px 11px}
 .over .clock{color:var(--cue)}
+/* Tela cheia: só falas + cronômetro */
+.fs header.top,.fs .chips,.fs .rules,.fs .screen,.fs .next,.fs #perguntas{display:none}
+.fs .slide.dim{display:none}
+.fs .wrap{padding-top:calc(14px + env(safe-area-inset-top,0px))}
+.fs .timer #exit{display:block}
+.fs .timer #reset{display:none}
 @media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
 </style>
 </head>
 <body>
 
 <header class="top">
-  <div class="row">
-    <div class="head">
-      <div class="title">
-        <h1>Roteiro do pitch Elo</h1>
-        <p class="sub">3 minutos · 7 slides · toque no seu nome para destacar suas falas</p>
-      </div>
-      <div class="tools">
-        <button type="button" id="theme" class="tool" aria-label="Alternar modo escuro">Escuro</button>
-        <button type="button" id="full" class="tool" aria-label="Tela cheia">Tela cheia</button>
-      </div>
-    </div>
-    <div class="chips" role="group" aria-label="Destacar falas de">
-      <button type="button" data-p="todos" aria-pressed="true">Todos</button>
-      <button type="button" data-p="ismael" aria-pressed="false">Ismael</button>
-      <button type="button" data-p="mateus" aria-pressed="false">Mateus</button>
-      <button type="button" data-p="luis" aria-pressed="false">Luis</button>
-      <button type="button" data-p="valdemir" aria-pressed="false">Valdemir</button>
-      <button type="button" data-p="rafael" aria-pressed="false">Rafael</button>
-      <button type="button" data-p="luiz" aria-pressed="false">Luiz N.</button>
-    </div>
+  <div class="head">
+    <h1>Roteiro do pitch Elo</h1>
+    <button type="button" id="theme" class="tool" aria-label="Alternar modo escuro"><svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/></svg><svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></g></svg></button>
+    <button type="button" id="full" class="tool" aria-label="Tela cheia"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
 </header>
 
 <main class="wrap">
-  <section class="rules" aria-label="Regras">
-    <h2>Sem ninguém no computador</h2>
-    <p>Quem termina a fala passa o slide. O controle vai de mão em mão na ordem do roteiro.</p>
-    <p>Passou do tempo? Corte uma frase. Não acelere.</p>
-    <p>Nunca diga "robô": o Elo é um assistente de cuidado.</p>
-  </section>
+  <div class="chips" role="group" aria-label="Destacar falas de">
+    <button type="button" data-p="todos" aria-pressed="true">Todos</button>
+    <button type="button" data-p="ismael" aria-pressed="false">Ismael</button>
+    <button type="button" data-p="mateus" aria-pressed="false">Mateus</button>
+    <button type="button" data-p="luis" aria-pressed="false">Luis</button>
+    <button type="button" data-p="valdemir" aria-pressed="false">Valdemir</button>
+    <button type="button" data-p="rafael" aria-pressed="false">Rafael</button>
+    <button type="button" data-p="luiz" aria-pressed="false">Luiz N.</button>
+  </div>
+
+  <p class="rules">Terminou? Passe o slide e o controle. · Estourou? Corte uma frase, não acelere. · Nunca diga "robô".</p>
 
   <article class="slide" data-p="ismael" id="s1">
-    <div class="meta"><span class="num">Slide 1 · Abertura</span><span class="time">0:00 → 0:35</span></div>
+    <div class="meta"><span class="num">1 · Abertura</span><span class="time">0:00 → 0:35</span></div>
     <h2 class="who">Ismael</h2>
-    <p class="screen"><b>Na tela:</b> à esquerda, 23:07, a mensagem da mãe e a resposta automática. À direita, 08:00, a recepção lotada. Embaixo: "Falta um elo."</p>
+    <p class="screen">Tela: 23:07 × 08:00 · "Falta um elo."</p>
     <div class="script">
       <p>Levanta a mão quem já saiu de uma consulta ou de um hospital e, em casa, bateu uma dúvida. <span class="cue">[pausa]</span></p>
       <p>Onze da noite. Uma mãe escreve para a clínica: o filho operou hoje e está com febre. E recebe isto. <span class="cue">[aponta a tela]</span></p>
@@ -125,73 +121,73 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <p>Pode abaixar. Do outro lado, amanhã às oito, tem uma recepcionista com dezenas de mensagens sem resposta, o telefone tocando, uma fila de pacientes impacientes e a agenda para confirmar.</p>
       <p>Um paciente sozinho. Uma equipe no limite. <b>Falta um elo.</b> E é por isso que criamos o Elo.</p>
     </div>
-    <p class="next"><b>Ao terminar:</b> passe para o slide 2 e entregue o controle ao Mateus.</p>
+    <p class="next">Depois → Mateus</p>
   </article>
 
   <article class="slide" data-p="mateus" id="s2">
-    <div class="meta"><span class="num">Slide 2 · Dados</span><span class="time">0:35 → 1:05</span></div>
+    <div class="meta"><span class="num">2 · Dados</span><span class="time">0:35 → 1:05</span></div>
     <h2 class="who">Mateus Freitas</h2>
-    <p class="screen"><b>Na tela:</b> quatro cartões com número, trecho da matéria e QR code: rede pública, rede privada, donos de clínica, pacientes.</p>
+    <p class="screen">Tela: 4 cartões com dados e QR codes</p>
     <div class="script">
       <p>Essa noite não é exceção.</p>
       <p>Na rede pública do ABC paulista, <b>mais de 40%</b> das consultas especializadas foram perdidas por falta em 2025. Na rede privada, quase um terço das clínicas e hospitais tem <b>mais de 11%</b> de faltas.</p>
       <p>E o canal já existe: <b>79%</b> das instituições oferecem agendamento pelo WhatsApp, e <b>38,7%</b> dos pacientes dizem que o maior atrativo é agendar a qualquer hora, dia ou noite.</p>
       <p>O paciente quer atenção a qualquer hora. <b>A clínica perde quando ele não vem.</b></p>
     </div>
-    <p class="next"><b>Ao terminar:</b> passe para o slide 3 e entregue o controle ao Luis.</p>
+    <p class="next">Depois → Luis</p>
   </article>
 
   <article class="slide" data-p="luis" id="s3">
-    <div class="meta"><span class="num">Slide 3 · O Elo</span><span class="time">1:05 → 1:25</span></div>
+    <div class="meta"><span class="num">3 · O Elo</span><span class="time">1:05 → 1:25</span></div>
     <h2 class="who">Luis</h2>
-    <p class="screen"><b>Na tela:</b> o rosto do Elo, "Elo, seu assistente de cuidado 24h" e as três funções.</p>
+    <p class="screen">Tela: rosto do Elo e as 3 funções</p>
     <div class="script">
       <p>O Elo é um <b>assistente de cuidado</b> que conversa com o paciente pelo WhatsApp da própria clínica, <b>24 horas</b>.</p>
       <p>Ele agenda e confirma consultas, acompanha o paciente depois do atendimento e, se algo foge do normal, chama a equipe.</p>
       <p>E o Elo não substitui a secretária. <b>Ele devolve a ela o tempo de cuidar de quem mais precisa.</b> <span class="cue">[devagar]</span></p>
     </div>
-    <p class="next"><b>Ao terminar:</b> passe para o slide 4 e entregue o controle ao Valdemir.</p>
+    <p class="next">Depois → Valdemir</p>
   </article>
 
   <article class="slide" data-p="valdemir" id="s4">
-    <div class="meta"><span class="num">Slide 4 · Na prática</span><span class="time">1:25 → 1:45</span></div>
+    <div class="meta"><span class="num">4 · Na prática</span><span class="time">1:25 → 1:45</span></div>
     <h2 class="who">Valdemir Junior</h2>
-    <p class="screen"><b>Na tela:</b> "23:07. Agora, com resposta." A conversa no WhatsApp e, embaixo, o alerta no painel da equipe.</p>
+    <p class="screen">Tela: conversa no WhatsApp + alerta da equipe</p>
     <div class="script">
       <p>Lembram da mensagem das 23:07? <b>Com o Elo, ela tem resposta.</b></p>
       <p>A mãe conta que o filho está com febre. O Elo pergunta a intensidade da dor e, quando a resposta é 7, avisa a enfermagem na hora: o alerta aparece no painel da equipe. <span class="cue">[aponta o alerta]</span></p>
       <p>Ele só usa orientações aprovadas pela instituição, segue a LGPD, e <b>quem decide é sempre a equipe.</b></p>
     </div>
-    <p class="next"><b>Ao terminar:</b> passe para o slide 5 e entregue o controle ao Rafael.</p>
+    <p class="next">Depois → Rafael</p>
   </article>
 
   <article class="slide" data-p="rafael" id="s5">
-    <div class="meta"><span class="num">Slide 5 · Como ganhamos</span><span class="time">1:45 → 2:10</span></div>
+    <div class="meta"><span class="num">5 · Como ganhamos</span><span class="time">1:45 → 2:10</span></div>
     <h2 class="who">Rafael Pereira de Melo</h2>
-    <p class="screen"><b>Na tela:</b> agência → clínica → paciente. Embaixo: implantação e assinatura mensal.</p>
+    <p class="screen">Tela: agência → clínica → paciente</p>
     <div class="script">
       <p>Somos uma agência: <b>implantamos o Elo e cuidamos dele todo mês.</b></p>
       <p>A clínica paga uma implantação, uma vez só, e uma assinatura mensal que cresce com o número de pacientes acompanhados. <b>O paciente não paga nada.</b></p>
       <p>Se a clínica cresce, a gente cresce junto. E cada consulta que deixa de ser perdida por falta <b>já ajuda a pagar o Elo.</b></p>
     </div>
-    <p class="next"><b>Ao terminar:</b> passe para o slide 6 e entregue o controle ao Luiz Nascente.</p>
+    <p class="next">Depois → Luiz Nascente</p>
   </article>
 
   <article class="slide" data-p="luiz" id="s6">
-    <div class="meta"><span class="num">Slide 6 · Equipe</span><span class="time">2:10 → 2:25</span></div>
+    <div class="meta"><span class="num">6 · Equipe</span><span class="time">2:10 → 2:25</span></div>
     <h2 class="who">Luiz Nascente</h2>
-    <p class="screen"><b>Na tela:</b> as seis fotos e as fases 1 e 2. Enquanto ele fala, o grupo se posiciona lado a lado.</p>
+    <p class="screen">Tela: as 6 fotos · o grupo se alinha</p>
     <div class="script">
       <p>Somos seis, <b>cada um cuidando de uma parte do Elo.</b></p>
       <p>Vamos começar por clínicas com procedimentos, como odonto e estética, onde a decisão é rápida. Depois, hospitais.</p>
     </div>
-    <p class="next"><b>Ao terminar:</b> passe para o slide 7 e fique com o controle até o fim.</p>
+    <p class="next">Depois → slide 7, fique com o controle</p>
   </article>
 
   <article class="slide" data-p="todos" id="s7">
-    <div class="meta"><span class="num">Slide 7 · Chamada para ação</span><span class="time">2:25 → 3:00</span></div>
+    <div class="meta"><span class="num">7 · Chamada</span><span class="time">2:25 → 3:00</span></div>
     <h2 class="who">Todos</h2>
-    <p class="screen"><b>Na tela:</b> "Hoje, às 23:07, quem vai responder o seu paciente?", "Seu cuidado não termina com a alta." e o QR da calculadora de cadeiras vazias. Cada um dá um passo à frente na sua vez.</p>
+    <p class="screen">Tela: 23:07 + QR da calculadora · um passo à frente na sua vez</p>
     <div class="lines">
       <div class="line" data-p="luiz"><span class="n">Luiz N.</span><p>Pensem na sua clínica agora.</p></div>
       <div class="line" data-p="valdemir"><span class="n">Valdemir</span><p>Quantas consultas vão ficar vazias amanhã?</p></div>
@@ -201,53 +197,66 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <div class="line" data-p="ismael"><span class="n">Ismael</span><p>Nós estamos aqui para que essa resposta seja o Elo. <span class="cue">[pausa]</span> E fica uma pergunta para cada dono de clínica: <b>quanto custou a última cadeira vazia da sua agenda?</b> O QR code na tela faz essa conta com você. Seu cuidado não termina com a alta.</p></div>
     </div>
     <div class="together"><small>Todos juntos</small><strong>Nós continuamos com você.</strong></div>
-    <p class="next"><b>Depois:</b> dois segundos de silêncio, "obrigado" e perguntas.</p>
+    <p class="next">Depois: 2 s de silêncio e "obrigado"</p>
   </article>
 
   <article class="slide" data-p="todos" id="perguntas">
     <div class="meta"><span class="num">Perguntas</span></div>
-    <h2 class="who">Quem responde o quê</h2>
+    <h2 class="who">Quem responde</h2>
     <div class="qa">
+      <div data-p="ismael"><p class="t">Visão, "por que vocês" e relacionamento · <span>Ismael</span></p><p>Equipe de seis, piloto medido, crescimento com números.</p></div>
       <div data-p="mateus"><p class="t">Dados e mercado · <span>Mateus</span></p><p>As fontes estão nos QR codes do slide 2.</p></div>
-      <div data-p="luis"><p class="t">Produto e secretária · <span>Luis</span></p><p>O Elo tira o repetitivo; a secretária cuida de quem mais precisa.</p></div>
       <div data-p="mateus"><p class="t">IA, erro e LGPD · <span>Mateus</span></p><p>Só conteúdo aprovado pela instituição; na dúvida, chama a equipe.</p></div>
-      <div data-p="rafael"><p class="t">Preço e custos · <span>Rafael</span></p><p>Implantação + assinatura por volume. Valores depois do piloto.</p></div>
+      <div data-p="luis"><p class="t">Produto e secretária · <span>Luis</span></p><p>O Elo tira o repetitivo; a secretária cuida de quem mais precisa.</p></div>
       <div data-p="valdemir"><p class="t">Clientes e piloto · <span>Valdemir</span></p><p>Começamos por clínicas com procedimentos.</p></div>
-      <div data-p="ismael"><p class="t">Visão e "por que vocês" · <span>Ismael</span></p><p>Equipe de seis, piloto medido, crescimento com números.</p></div>
+      <div data-p="rafael"><p class="t">Preço e custos · <span>Rafael</span></p><p>Implantação + assinatura por volume. Valores depois do piloto.</p></div>
+      <div data-p="luiz"><p class="t">Idosos e uso · <span>Luiz N.</span></p><p>O Elo usa o WhatsApp, que eles já conhecem.</p></div>
     </div>
-    <p class="next">Não sabe? "Boa pergunta. É exatamente o que vamos validar no piloto." Nunca invente um número.</p>
+    <p class="next">Não sabe? "Boa pergunta. É o que vamos validar no piloto." Nunca invente número.</p>
   </article>
 </main>
 
 <div class="timer" id="timer">
   <div class="row">
     <span class="clock" id="clock" aria-live="off">0:00</span>
-    <span class="now" id="now"><b>Ensaio</b>Toque em Iniciar para cronometrar</span>
+    <span class="now" id="now"><b>Ensaio</b>Pronto para começar</span>
     <button type="button" id="go">Iniciar</button>
     <button type="button" class="ghost" id="reset">Zerar</button>
+    <button type="button" class="ghost" id="exit" aria-label="Sair da tela cheia">✕</button>
   </div>
 </div>
 
 <script>
 (function(){
+  var root=document.documentElement, tb=document.getElementById('theme'), fb=document.getElementById('full'), xb=document.getElementById('exit');
 
-  var root=document.documentElement, tb=document.getElementById('theme'), fb=document.getElementById('full');
+  // Tema
   function isDark(){var t=root.getAttribute('data-theme'); if(t) return t==='dark'; return window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches;}
-  function label(){tb.textContent=isDark()?'Claro':'Escuro'; tb.setAttribute('aria-label', isDark()?'Mudar para modo claro':'Mudar para modo escuro');}
+  function label(){tb.classList.toggle('is-dark',isDark()); tb.setAttribute('aria-label', isDark()?'Mudar para modo claro':'Mudar para modo escuro');}
   try{var th=localStorage.getItem('elo-tema'); if(th) root.setAttribute('data-theme',th);}catch(e){}
   label();
   tb.addEventListener('click',function(){var t=isDark()?'light':'dark'; root.setAttribute('data-theme',t); try{localStorage.setItem('elo-tema',t);}catch(e){} label();});
+
+  // Tela cheia: esconde o topo e as notas; ficam as falas e o cronômetro
   var canFull=!!(root.requestFullscreen||root.webkitRequestFullscreen);
   if(!canFull){fb.hidden=true;}
   function inFull(){return !!(document.fullscreenElement||document.webkitFullscreenElement);}
-  function flabel(){fb.textContent=inFull()?'Sair':'Tela cheia';}
+  function exitFull(){try{(document.exitFullscreen||document.webkitExitFullscreen).call(document);}catch(e){}}
+  function onFull(){
+    var f=inFull(); root.classList.toggle('fs',f); fb.setAttribute('aria-label',f?'Sair da tela cheia':'Tela cheia');
+    var t=document.querySelector('.slide.live')||document.querySelector('.slide.mine');
+    if(f && t) t.scrollIntoView({block:'start'});
+  }
   fb.addEventListener('click',function(){
     try{
-      if(inFull()){(document.exitFullscreen||document.webkitExitFullscreen).call(document);}
+      if(inFull()){exitFull();}
       else{var p=(root.requestFullscreen||root.webkitRequestFullscreen).call(root); if(p&&p.catch)p.catch(function(){fb.hidden=true;});}
     }catch(e){fb.hidden=true;}
   });
-  document.addEventListener('fullscreenchange',flabel); document.addEventListener('webkitfullscreenchange',flabel);
+  xb.addEventListener('click',exitFull);
+  document.addEventListener('fullscreenchange',onFull); document.addEventListener('webkitfullscreenchange',onFull);
+
+  // Destaque por pessoa
   var chips=[].slice.call(document.querySelectorAll('.chips button'));
   function apply(p){
     chips.forEach(function(b){b.setAttribute('aria-pressed', String(b.dataset.p===p));});
@@ -266,24 +275,34 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
   var saved='todos'; try{saved=localStorage.getItem('elo-pessoa')||'todos';}catch(e){}
   apply(saved);
 
-  var plan=[[0,'Slide 1 · Ismael'],[35,'Slide 2 · Mateus'],[65,'Slide 3 · Luis'],[85,'Slide 4 · Valdemir'],[105,'Slide 5 · Rafael'],[130,'Slide 6 · Luiz Nascente'],[145,'Slide 7 · Todos'],[180,'Tempo esgotado']];
+  // Cronômetro: marca o slide da vez e rola até ele
+  var plan=[[0,'1 · Ismael','s1'],[35,'2 · Mateus','s2'],[65,'3 · Luis','s3'],[85,'4 · Valdemir','s4'],[105,'5 · Rafael','s5'],[130,'6 · Luiz N.','s6'],[145,'7 · Todos','s7'],[180,'Tempo esgotado','s7']];
   var clock=document.getElementById('clock'), now=document.getElementById('now'), go=document.getElementById('go'), timer=document.getElementById('timer');
-  var start=null, acc=0, tick=null, lock=null;
+  var start=null, acc=0, tick=null, lock=null, lastId=null;
   function fmt(s){return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');}
+  function mark(id,scroll){
+    document.querySelectorAll('.slide.live').forEach(function(s){s.classList.remove('live');});
+    if(!id) return;
+    var el=document.getElementById(id); if(!el) return;
+    el.classList.add('live');
+    if(scroll && el.offsetParent!==null) el.scrollIntoView({block:'start'});
+  }
   function render(){
     var t=acc+(start?(Date.now()-start)/1000:0), cur=plan[0], nxt=null;
     for(var i=0;i<plan.length;i++){ if(t>=plan[i][0]){cur=plan[i]; nxt=plan[i+1]||null;} }
     clock.textContent=fmt(t);
-    now.innerHTML='<b>'+cur[1]+'</b>'+(nxt?'Próximo em '+fmt(Math.max(0,nxt[0]-t))+': '+nxt[1]:'Fechem com a frase final');
+    now.innerHTML='<b>'+cur[1]+'</b>'+(nxt?'próximo em '+fmt(Math.max(0,nxt[0]-t)):'frase final');
     timer.classList.toggle('over', t>=180);
+    if(cur[2]!==lastId){mark(cur[2], !!start && lastId!==null); lastId=cur[2];}
   }
   go.addEventListener('click',function(){
-    if(start){acc+=(Date.now()-start)/1000; start=null; clearInterval(tick); go.textContent='Continuar'; if(lock){lock.release().catch(function(){}); lock=null;}}
-    else{start=Date.now(); tick=setInterval(render,250); go.textContent='Pausar';
-      if(navigator.wakeLock){navigator.wakeLock.request('screen').then(function(l){lock=l;}).catch(function(){});}}
+    if(start){acc+=(Date.now()-start)/1000; start=null; clearInterval(tick); go.textContent='Seguir'; if(lock){lock.release().catch(function(){}); lock=null;}}
+    else{var fresh=acc===0; start=Date.now(); tick=setInterval(render,250); go.textContent='Pausar';
+      if(navigator.wakeLock){navigator.wakeLock.request('screen').then(function(l){lock=l;}).catch(function(){});}
+      if(fresh){lastId=null; render(); var f=document.getElementById('s1'); if(f.offsetParent!==null) f.scrollIntoView({block:'start'}); return;}}
     render();
   });
-  document.getElementById('reset').addEventListener('click',function(){acc=0; start=null; clearInterval(tick); go.textContent='Iniciar'; clock.textContent='0:00'; now.innerHTML='<b>Ensaio</b>Toque em Iniciar para cronometrar'; timer.classList.remove('over');});
+  document.getElementById('reset').addEventListener('click',function(){acc=0; start=null; lastId=null; clearInterval(tick); go.textContent='Iniciar'; clock.textContent='0:00'; now.innerHTML='<b>Ensaio</b>Pronto para começar'; timer.classList.remove('over'); mark(null); if(lock){lock.release().catch(function(){}); lock=null;}});
 })();
 </script>
 </body>
