@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0B2A5B">
+<title>Roteiro do pitch Elo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: uma coluna de cartões por slide, cabeçalho fixo com filtro por pessoa, cronômetro de ensaio no rodapé */
+:root{
+  --bg:#F3F7FB; --card:#FFFFFF; --ink:#0B2A5B; --muted:#4A6280; --line:#DCE6F0;
+  --accent:#1E6FE8; --teal:#0E8A99; --cue:#B45309; --cue-bg:#FFF3DC; --mine:#E2F7FB; --mine-edge:#1FC3D3;
+  --chip:#E2ECF8; --dark:#0B2A5B; --dark-ink:#F3F7FB; --on-accent:#FFFFFF;
+  --display:'Outfit', 'Trebuchet MS', sans-serif; --body:'Nunito Sans', 'Segoe UI', Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#07142B; --card:#0E2142; --ink:#E8F0FA; --muted:#9FB6D6; --line:#1E3560;
+  --accent:#6FA8FF; --teal:#5FD6E3; --cue:#FFC15A; --cue-bg:#2E2410; --mine:#0F3440; --mine-edge:#5FD6E3;
+  --chip:#16305A; --dark:#13386F; --dark-ink:#F3F7FB; --on-accent:#07142B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#07142B; --card:#0E2142; --ink:#E8F0FA; --muted:#9FB6D6; --line:#1E3560;
+  --accent:#6FA8FF; --teal:#5FD6E3; --cue:#FFC15A; --cue-bg:#2E2410; --mine:#0F3440; --mine-edge:#5FD6E3;
+  --chip:#16305A; --dark:#13386F; --dark-ink:#F3F7FB; --on-accent:#07142B; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;padding:0 16px;padding-block:0 96px}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px 10px;margin:0 -16px;padding-inline:16px;border-bottom:1px solid var(--line)}
+header.top .row{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.head{display:flex;align-items:flex-start;gap:12px}
+.title{flex:1;min-width:0}
+.tools{display:flex;gap:6px;flex:none}
+.tool{font:700 13px var(--body);color:var(--ink);background:var(--chip);border:1px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer}
+h1{font-family:var(--display);font-size:22px;font-weight:700;margin:0;text-wrap:balance}
+.sub{margin:0;color:var(--muted);font-size:14px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips button{flex:none;font:600 14px var(--body);color:var(--ink);background:var(--chip);border:1px solid transparent;border-radius:99px;padding:7px 14px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.rules{background:var(--dark);color:var(--dark-ink);border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;margin-top:16px}
+.rules h2{font-family:var(--display);font-size:17px;margin:0 0 2px;color:#72E6FF;font-weight:600}
+.rules p{margin:0;font-size:15px}
+.slide{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:120px}
+.slide.mine{border-color:var(--mine-edge);box-shadow:0 0 0 2px var(--mine-edge) inset}
+.slide.dim{opacity:.45}
+.meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.num{font:700 13px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.time{margin-left:auto;font:700 14px var(--body);font-variant-numeric:tabular-nums;background:var(--cue-bg);color:var(--ink);padding:3px 10px;border-radius:99px}
+.who{font-family:var(--display);font-size:24px;font-weight:700;margin:0;line-height:1.15}
+.screen{margin:0;font-size:14px;color:var(--muted);background:var(--bg);border-radius:10px;padding:10px 12px}
+.screen b{color:var(--ink);font-weight:700}
+.script{display:flex;flex-direction:column;gap:10px}
+.script p{margin:0;font-size:19px;line-height:1.5}
+.cue{color:var(--cue);font-weight:700;font-size:15px;white-space:nowrap}
+.next{margin:0;font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.next b{color:var(--ink)}
+.lines{display:flex;flex-direction:column;gap:10px}
+.line{display:grid;grid-template-columns:92px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:12px;background:var(--bg)}
+.line.mine{background:var(--mine)}
+.line .n{font:700 14px var(--body);color:var(--accent);padding-top:2px}
+.line p{margin:0;font-size:18px;min-width:0}
+.together{background:var(--dark);color:var(--dark-ink);border-radius:14px;padding:14px;text-align:center}
+.together small{display:block;font:700 12px var(--body);letter-spacing:.12em;text-transform:uppercase;color:#72E6FF}
+.together strong{font-family:var(--display);font-size:26px}
+.qa{display:flex;flex-direction:column;gap:10px}
+.qa div{padding:10px 12px;background:var(--bg);border-radius:12px}
+.qa .t{font-weight:700;font-size:15px}
+.qa .t span{color:var(--accent)}
+.qa p{margin:2px 0 0;font-size:15px;color:var(--muted)}
+.timer{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--card);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.timer .row{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.clock{font:700 26px var(--display);font-variant-numeric:tabular-nums;min-width:74px}
+.now{flex:1;min-width:0;font-size:14px;color:var(--muted);line-height:1.3}
+.now b{color:var(--ink);display:block;font-size:15px}
+.timer button{font:700 15px var(--body);border:none;border-radius:12px;padding:10px 14px;cursor:pointer;background:var(--accent);color:var(--on-accent)}
+.timer button.ghost{background:var(--chip);color:var(--ink)}
+.over .clock{color:var(--cue)}
+@media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="row">
+    <div class="head">
+      <div class="title">
+        <h1>Roteiro do pitch Elo</h1>
+        <p class="sub">3 minutos · 7 slides · toque no seu nome para destacar suas falas</p>
+      </div>
+      <div class="tools">
+        <button type="button" id="theme" class="tool" aria-label="Alternar modo escuro">Escuro</button>
+        <button type="button" id="full" class="tool" aria-label="Tela cheia">Tela cheia</button>
+      </div>
+    </div>
+    <div class="chips" role="group" aria-label="Destacar falas de">
+      <button type="button" data-p="todos" aria-pressed="true">Todos</button>
+      <button type="button" data-p="ismael" aria-pressed="false">Ismael</button>
+      <button type="button" data-p="mateus" aria-pressed="false">Mateus</button>
+      <button type="button" data-p="luis" aria-pressed="false">Luis</button>
+      <button type="button" data-p="luiz" aria-pressed="false">Luiz N.</button>
+      <button type="button" data-p="rafael" aria-pressed="false">Rafael</button>
+      <button type="button" data-p="valdemir" aria-pressed="false">Valdemir</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="rules" aria-label="Regras">
+    <h2>Sem ninguém no computador</h2>
+    <p>Quem termina a fala passa o slide. O controle vai de mão em mão na ordem do roteiro.</p>
+    <p>Passou do tempo? Corte uma frase. Não acelere.</p>
+    <p>Nunca diga "robô": o Elo é um assistente de cuidado.</p>
+  </section>
+
+  <article class="slide" data-p="ismael" id="s1">
+    <div class="meta"><span class="num">Slide 1 · Abertura</span><span class="time">0:00 → 0:35</span></div>
+    <h2 class="who">Ismael</h2>
+    <p class="screen"><b>Na tela:</b> à esquerda, 23:07, a mensagem da mãe e a resposta automática. À direita, 08:00, a recepção lotada. Embaixo: "Falta um elo."</p>
+    <div class="script">
+      <p>Levanta a mão quem já saiu de uma consulta ou de um hospital e, em casa, bateu uma dúvida. <span class="cue">[pausa]</span></p>
+      <p>Onze da noite. Uma mãe escreve para a clínica: o filho operou hoje e está com febre. E recebe isto. <span class="cue">[aponta a tela]</span></p>
+      <p><b>Agora imagina que é o seu filho, que precisa de um cuidado especial. O seu pai. A sua mãe.</b> <span class="cue">[pausa longa]</span></p>
+      <p>Pode abaixar. Do outro lado, amanhã às oito, tem uma recepcionista com dezenas de mensagens sem resposta, o telefone tocando, uma fila de pacientes impacientes e a agenda para confirmar.</p>
+      <p>Um paciente sozinho. Uma equipe no limite. <b>Falta um elo.</b> E é por isso que criamos o Elo.</p>
+    </div>
+    <p class="next"><b>Ao terminar:</b> passe para o slide 2 e entregue o controle ao Mateus.</p>
+  </article>
+
+  <article class="slide" data-p="mateus" id="s2">
+    <div class="meta"><span class="num">Slide 2 · Dados</span><span class="time">0:35 → 1:05</span></div>
+    <h2 class="who">Mateus Freitas</h2>
+    <p class="screen"><b>Na tela:</b> quatro cartões com número, trecho da matéria e QR code: rede pública, rede privada, donos de clínica, pacientes.</p>
+    <div class="script">
+      <p>Essa noite não é exceção.</p>
+      <p>Na rede pública do ABC paulista, <b>mais de 40%</b> das consultas especializadas foram perdidas por falta em 2025. Na rede privada, quase um terço das clínicas e hospitais tem <b>mais de 11%</b> de faltas.</p>
+      <p>E o canal já existe: <b>79%</b> das instituições oferecem agendamento pelo WhatsApp, e <b>38,7%</b> dos pacientes dizem que o maior atrativo é agendar a qualquer hora, dia ou noite.</p>
+      <p>O paciente quer atenção a qualquer hora. <b>A clínica perde quando ele não vem.</b></p>
+    </div>
+    <p class="next"><b>Ao terminar:</b> passe para o slide 3 e entregue o controle ao Luis.</p>
+  </article>
+
+  <article class="slide" data-p="luis" id="s3">
+    <div class="meta"><span class="num">Slide 3 · O Elo</span><span class="time">1:05 → 1:25</span></div>
+    <h2 class="who">Luis</h2>
+    <p class="screen"><b>Na tela:</b> o rosto do Elo, "Elo, seu assistente de cuidado 24h" e as três funções.</p>
+    <div class="script">
+      <p>O Elo é um <b>assistente de cuidado</b> que conversa com o paciente pelo WhatsApp da própria clínica, <b>24 horas</b>.</p>
+      <p>Ele agenda e confirma consultas, acompanha o paciente depois do atendimento e, se algo foge do normal, chama a equipe.</p>
+      <p>E o Elo não substitui a secretária. <b>Ele devolve a ela o tempo de cuidar de quem mais precisa.</b> <span class="cue">[devagar]</span></p>
+    </div>
+    <p class="next"><b>Ao terminar:</b> passe para o slide 4 e entregue o controle ao Luiz Nascente.</p>
+  </article>
+
+  <article class="slide" data-p="luiz" id="s4">
+    <div class="meta"><span class="num">Slide 4 · Na prática</span><span class="time">1:25 → 1:45</span></div>
+    <h2 class="who">Luiz Nascente</h2>
+    <p class="screen"><b>Na tela:</b> "23:07. Agora, com resposta." A conversa no WhatsApp e, embaixo, o alerta no painel da equipe.</p>
+    <div class="script">
+      <p>Lembram da mensagem das 23:07? <b>Com o Elo, ela tem resposta.</b></p>
+      <p>A mãe conta que o filho está com febre. O Elo pergunta a intensidade da dor e, quando a resposta é 7, avisa a enfermagem na hora: o alerta aparece no painel da equipe. <span class="cue">[aponta o alerta]</span></p>
+      <p>Ele só usa orientações aprovadas pela instituição, segue a LGPD, e <b>quem decide é sempre a equipe.</b></p>
+    </div>
+    <p class="next"><b>Ao terminar:</b> passe para o slide 5 e entregue o controle ao Rafael.</p>
+  </article>
+
+  <article class="slide" data-p="rafael" id="s5">
+    <div class="meta"><span class="num">Slide 5 · Como ganhamos</span><span class="time">1:45 → 2:10</span></div>
+    <h2 class="who">Rafael Pereira de Melo</h2>
+    <p class="screen"><b>Na tela:</b> agência → clínica → paciente. Embaixo: implantação e assinatura mensal.</p>
+    <div class="script">
+      <p>Somos uma agência: <b>implantamos o Elo e cuidamos dele todo mês.</b></p>
+      <p>A clínica paga uma implantação, uma vez só, e uma assinatura mensal que cresce com o número de pacientes acompanhados. <b>O paciente não paga nada.</b></p>
+      <p>Se a clínica cresce, a gente cresce junto. E cada consulta que deixa de ser perdida por falta <b>já ajuda a pagar o Elo.</b></p>
+    </div>
+    <p class="next"><b>Ao terminar:</b> passe para o slide 6 e entregue o controle ao Valdemir.</p>
+  </article>
+
+  <article class="slide" data-p="valdemir" id="s6">
+    <div class="meta"><span class="num">Slide 6 · Equipe</span><span class="time">2:10 → 2:25</span></div>
+    <h2 class="who">Valdemir Junior</h2>
+    <p class="screen"><b>Na tela:</b> as seis fotos e as fases 1 e 2. Enquanto ele fala, o grupo se posiciona lado a lado.</p>
+    <div class="script">
+      <p>Somos seis, <b>cada um cuidando de uma parte do Elo.</b></p>
+      <p>Vamos começar por clínicas com procedimentos, como odonto e estética, onde a decisão é rápida. Depois, hospitais.</p>
+    </div>
+    <p class="next"><b>Ao terminar:</b> passe para o slide 7 e fique com o controle até o fim.</p>
+  </article>
+
+  <article class="slide" data-p="todos" id="s7">
+    <div class="meta"><span class="num">Slide 7 · Chamada para ação</span><span class="time">2:25 → 3:00</span></div>
+    <h2 class="who">Todos</h2>
+    <p class="screen"><b>Na tela:</b> "Hoje, às 23:07, quem vai responder o seu paciente?", "Seu cuidado não termina com a alta." e o QR da calculadora de cadeiras vazias. Cada um dá um passo à frente na sua vez.</p>
+    <div class="lines">
+      <div class="line" data-p="valdemir"><span class="n">Valdemir</span><p>Pensem na sua clínica agora.</p></div>
+      <div class="line" data-p="rafael"><span class="n">Rafael</span><p>Quantas consultas vão ficar vazias amanhã?</p></div>
+      <div class="line" data-p="mateus"><span class="n">Mateus</span><p>Quantas mensagens vão ficar sem resposta hoje?</p></div>
+      <div class="line" data-p="luiz"><span class="n">Luiz N.</span><p>Quantos pacientes vão passar a noite com uma dúvida?</p></div>
+      <div class="line" data-p="luis"><span class="n">Luis</span><p>E hoje, às 23:07… quem vai responder o seu paciente? <span class="cue">[pausa longa]</span></p></div>
+      <div class="line" data-p="ismael"><span class="n">Ismael</span><p>Nós estamos aqui para que essa resposta seja o Elo. <span class="cue">[pausa]</span> E fica uma pergunta para cada dono de clínica: <b>quanto custou a última cadeira vazia da sua agenda?</b> O QR code na tela faz essa conta com você. Seu cuidado não termina com a alta.</p></div>
+    </div>
+    <div class="together"><small>Todos juntos</small><strong>Nós continuamos com você.</strong></div>
+    <p class="next"><b>Depois:</b> dois segundos de silêncio, "obrigado" e perguntas.</p>
+  </article>
+
+  <article class="slide" data-p="todos" id="perguntas">
+    <div class="meta"><span class="num">Perguntas</span></div>
+    <h2 class="who">Quem responde o quê</h2>
+    <div class="qa">
+      <div data-p="mateus"><p class="t">Dados e mercado · <span>Mateus</span></p><p>As fontes estão nos QR codes do slide 2.</p></div>
+      <div data-p="luis"><p class="t">Produto e secretária · <span>Luis</span></p><p>O Elo tira o repetitivo; a secretária cuida de quem mais precisa.</p></div>
+      <div data-p="luiz"><p class="t">IA, erro e LGPD · <span>Luiz N.</span></p><p>Só conteúdo aprovado pela instituição; na dúvida, chama a equipe.</p></div>
+      <div data-p="rafael"><p class="t">Preço e custos · <span>Rafael</span></p><p>Implantação + assinatura por volume. Valores depois do piloto.</p></div>
+      <div data-p="valdemir"><p class="t">Clientes e piloto · <span>Valdemir</span></p><p>Começamos por clínicas com procedimentos.</p></div>
+      <div data-p="ismael"><p class="t">Visão e "por que vocês" · <span>Ismael</span></p><p>Equipe de seis, piloto medido, crescimento com números.</p></div>
+    </div>
+    <p class="next">Não sabe? "Boa pergunta. É exatamente o que vamos validar no piloto." Nunca invente um número.</p>
+  </article>
+</main>
+
+<div class="timer" id="timer">
+  <div class="row">
+    <span class="clock" id="clock" aria-live="off">0:00</span>
+    <span class="now" id="now"><b>Ensaio</b>Toque em Iniciar para cronometrar</span>
+    <button type="button" id="go">Iniciar</button>
+    <button type="button" class="ghost" id="reset">Zerar</button>
+  </div>
+</div>
+
+<script>
+(function(){
+
+  var root=document.documentElement, tb=document.getElementById('theme'), fb=document.getElementById('full');
+  function isDark(){var t=root.getAttribute('data-theme'); if(t) return t==='dark'; return window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches;}
+  function label(){tb.textContent=isDark()?'Claro':'Escuro'; tb.setAttribute('aria-label', isDark()?'Mudar para modo claro':'Mudar para modo escuro');}
+  try{var th=localStorage.getItem('elo-tema'); if(th) root.setAttribute('data-theme',th);}catch(e){}
+  label();
+  tb.addEventListener('click',function(){var t=isDark()?'light':'dark'; root.setAttribute('data-theme',t); try{localStorage.setItem('elo-tema',t);}catch(e){} label();});
+  var canFull=!!(root.requestFullscreen||root.webkitRequestFullscreen);
+  if(!canFull){fb.hidden=true;}
+  function inFull(){return !!(document.fullscreenElement||document.webkitFullscreenElement);}
+  function flabel(){fb.textContent=inFull()?'Sair':'Tela cheia';}
+  fb.addEventListener('click',function(){
+    try{
+      if(inFull()){(document.exitFullscreen||document.webkitExitFullscreen).call(document);}
+      else{var p=(root.requestFullscreen||root.webkitRequestFullscreen).call(root); if(p&&p.catch)p.catch(function(){fb.hidden=true;});}
+    }catch(e){fb.hidden=true;}
+  });
+  document.addEventListener('fullscreenchange',flabel); document.addEventListener('webkitfullscreenchange',flabel);
+  var chips=[].slice.call(document.querySelectorAll('.chips button'));
+  function apply(p){
+    chips.forEach(function(b){b.setAttribute('aria-pressed', String(b.dataset.p===p));});
+    document.querySelectorAll('.slide').forEach(function(s){
+      var owner=s.dataset.p, hasLine=!!s.querySelector('[data-p="'+p+'"]');
+      s.classList.toggle('mine', p!=='todos' && (owner===p || hasLine));
+      s.classList.toggle('dim', p!=='todos' && owner!==p && owner!=='todos');
+    });
+    document.querySelectorAll('.line,.qa div').forEach(function(l){ l.classList.toggle('mine', p!=='todos' && l.dataset.p===p); });
+    try{localStorage.setItem('elo-pessoa',p);}catch(e){}
+  }
+  chips.forEach(function(b){b.addEventListener('click',function(){
+    apply(b.dataset.p);
+    if(b.dataset.p!=='todos'){var first=document.querySelector('.slide[data-p="'+b.dataset.p+'"]'); if(first) first.scrollIntoView({block:'start'});}
+  });});
+  var saved='todos'; try{saved=localStorage.getItem('elo-pessoa')||'todos';}catch(e){}
+  apply(saved);
+
+  var plan=[[0,'Slide 1 · Ismael'],[35,'Slide 2 · Mateus'],[65,'Slide 3 · Luis'],[85,'Slide 4 · Luiz Nascente'],[105,'Slide 5 · Rafael'],[130,'Slide 6 · Valdemir'],[145,'Slide 7 · Todos'],[180,'Tempo esgotado']];
+  var clock=document.getElementById('clock'), now=document.getElementById('now'), go=document.getElementById('go'), timer=document.getElementById('timer');
+  var start=null, acc=0, tick=null, lock=null;
+  function fmt(s){return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');}
+  function render(){
+    var t=acc+(start?(Date.now()-start)/1000:0), cur=plan[0], nxt=null;
+    for(var i=0;i<plan.length;i++){ if(t>=plan[i][0]){cur=plan[i]; nxt=plan[i+1]||null;} }
+    clock.textContent=fmt(t);
+    now.innerHTML='<b>'+cur[1]+'</b>'+(nxt?'Próximo em '+fmt(Math.max(0,nxt[0]-t))+': '+nxt[1]:'Fechem com a frase final');
+    timer.classList.toggle('over', t>=180);
+  }
+  go.addEventListener('click',function(){
+    if(start){acc+=(Date.now()-start)/1000; start=null; clearInterval(tick); go.textContent='Continuar'; if(lock){lock.release().catch(function(){}); lock=null;}}
+    else{start=Date.now(); tick=setInterval(render,250); go.textContent='Pausar';
+      if(navigator.wakeLock){navigator.wakeLock.request('screen').then(function(l){lock=l;}).catch(function(){});}}
+    render();
+  });
+  document.getElementById('reset').addEventListener('click',function(){acc=0; start=null; clearInterval(tick); go.textContent='Iniciar'; clock.textContent='0:00'; now.innerHTML='<b>Ensaio</b>Toque em Iniciar para cronometrar'; timer.classList.remove('over');});
+})();
+</script>
+</body>
+</html>
